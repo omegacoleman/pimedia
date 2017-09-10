@@ -1,0 +1,17 @@
+{
+  "name": "pimedia",
+  "version": "0.0.1",
+  "description": "A full multimedia solution for raspberry pi based on omxplayer and koajs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "YouCai <1305381973@qq.com>",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.3.0",
+    "koa-send": "^4.1.0",
+    "socket.io": "^2.0.3",
+    "walk": "^2.3.9"
+  }
+}

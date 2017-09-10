@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	    <title>PiMedia Remote Control</title>
+
+    	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    	<script src="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js"></script>
+	</head>
+	<body class="bg-info">
+		<div class="center-block text-center container-fluid">
+			<h1>PiMedia</h1>
+			<h3>Remote Control</h3>
+			<form class="form-inline">
+				<div class="input-group">
+					<select type="text" class="form-control" id="file_to_play">
+						<option value="">Select file to play</option>
+					</select>
+			    	<div type="button" class="input-group-addon btn btn-info" onclick="play_file()"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>
+			    </div>
+			</form>
+			<br>
+			<button type="button" class="btn btn-primary" onclick="control('volUp')"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></button>
+			<button type="button" class="btn btn-primary" onclick="control('volDown')"><span class="glyphicon glyphicon-volume-down" aria-hidden="true"></span></button>
+			<button type="button" class="btn btn-danger" onclick="control('quit')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button><br><br>
+			<button type="button" class="btn btn-primary" onclick="control('back600')"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></button>
+			<button type="button" class="btn btn-primary" onclick="control('back30')"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button>
+			<button type="button" class="btn btn-success" onclick="control('pause')"><span class="glyphicon glyphicon-play" aria-hidden="true"></span><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+			<button type="button" class="btn btn-primary" onclick="control('fwd30')"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>
+			<button type="button" class="btn btn-primary" onclick="control('fwd600')"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></button><br><br>
+			<button type="button" class="btn btn-primary" onclick="control('prevChapter')"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button>
+			<button type="button" class="btn btn-primary" onclick="control('nextChapter')"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button>
+			<button type="button" class="btn btn-primary" onclick="control('subtitles')"><span class="glyphicon glyphicon-text-background" aria-hidden="true"></span></button><br><br>
+		</div>
+		<script>
+			$("#file_to_play").html($.ajax({url: window.location.href + 'flist', async:false}).responseText);
+			var socket = io("http://" + window.location.hostname, { path: window.location.pathname + 'socket.io' });
+			function play_file()
+			{
+				socket.emit('play_file', $("#file_to_play").val());
+			}
+			function control(how)
+			{
+				socket.emit('control', how);
+			}
+		</script>
+	</body>
+</html>
+
